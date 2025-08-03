@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qt Camera Web Application</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Qt Camera Web Application</h1>
+            <p>Live camera feed with playback controls</p>
+        </header>
+
+        <main>
+            <!-- Camera Display Area -->
+            <div class="camera-container">
+                <video id="cameraVideo" autoplay muted playsinline></video>
+                <div id="placeholderMessage" class="placeholder">
+                    <i class="icon">📷</i>
+                    <p>Camera feed will appear here</p>
+                    <p class="sub-text">Click "Start Camera" to begin</p>
+                </div>
+            </div>
+
+            <!-- Controls Section -->
+            <div class="controls-section">
+                <!-- Playback Controls -->
+                <div class="control-group">
+                    <h3>Playback Controls</h3>
+                    <div class="button-group">
+                        <button id="playBtn" class="control-btn primary">
+                            <i class="icon">▶️</i> Start Camera
+                        </button>
+                        <button id="pauseBtn" class="control-btn" disabled>
+                            <i class="icon">⏸️</i> Pause
+                        </button>
+                        <button id="resumeBtn" class="control-btn" disabled>
+                            <i class="icon">▶️</i> Resume
+                        </button>
+                        <button id="stopBtn" class="control-btn danger" disabled>
+                            <i class="icon">⏹️</i> Stop
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Camera Settings -->
+                <div class="control-group">
+                    <h3>Camera Settings</h3>
+                    <div class="settings-group">
+                        <label for="resolutionSelect">Resolution:</label>
+                        <select id="resolutionSelect" class="control-select">
+                            <option value="640x480">640x480 (VGA)</option>
+                            <option value="1280x720" selected>1280x720 (HD)</option>
+                            <option value="1920x1080">1920x1080 (Full HD)</option>
+                        </select>
+                        
+                        <label for="deviceSelect">Camera Device:</label>
+                        <select id="deviceSelect" class="control-select">
+                            <option value="">Select camera...</option>
+                        </select>
+                    </div>
+                    
+                    <div class="status-info">
+                        <span class="status-label">Current Resolution:</span>
+                        <span id="currentResolution">1280x720</span>
+                    </div>
+                </div>
+
+                <!-- Capture Controls -->
+                <div class="control-group">
+                    <h3>Capture</h3>
+                    <div class="button-group">
+                        <button id="screenshotBtn" class="control-btn secondary" disabled>
+                            <i class="icon">📸</i> Take Screenshot
+                        </button>
+                        <button id="recordBtn" class="control-btn secondary" disabled>
+                            <i class="icon">🎬</i> Start Recording
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status Bar -->
+            <div class="status-bar">
+                <div class="status-section">
+                    <span class="status-indicator" id="statusIndicator">🔴</span>
+                    <span id="statusText">Ready - Click "Start Camera" to begin</span>
+                </div>
+                <div class="stats-section">
+                    <span id="frameRate">FPS: 0</span>
+                    <span id="resolution">Resolution: N/A</span>
+                </div>
+            </div>
+        </main>
+
+        <!-- Hidden canvas for screenshots -->
+        <canvas id="screenshotCanvas" style="display: none;"></canvas>
+        
+        <!-- Screenshots gallery -->
+        <div id="screenshotsSection" class="screenshots-section" style="display: none;">
+            <h3>Screenshots</h3>
+            <div id="screenshotsGallery" class="screenshots-gallery"></div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Error</h3>
+            <p id="errorMessage"></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 

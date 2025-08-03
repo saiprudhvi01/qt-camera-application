@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error Handling Demo - Qt Camera App</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .error-scenario {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #dc3545;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .success-scenario {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #28a745;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .code {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 10px 0;
+        }
+        .status {
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        .error { background: #f8d7da; color: #721c24; }
+        .success { background: #d4edda; color: #155724; }
+        .warning { background: #fff3cd; color: #856404; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        h1 { color: #333; text-align: center; }
+        h2 { color: #495057; border-bottom: 2px solid #007bff; padding-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Error Handling Demonstration</h1>
+    <p>This page demonstrates the comprehensive error handling implemented in the Qt Camera Web Application.</p>
+
+    <div class="success-scenario">
+        <h2>✅ Successful Operations</h2>
+        <div class="status success">Camera initialized successfully</div>
+        <div class="status success">Camera started - Live feed active</div>
+        <div class="status success">Screenshot captured</div>
+        <div class="status success">Recording saved</div>
+    </div>
+
+    <div class="error-scenario">
+        <h2>❌ Camera Access Errors</h2>
+        
+        <h3>1. Permission Denied</h3>
+        <div class="status error">Failed to start camera: Permission denied</div>
+        <div class="code">
+try {
+    this.stream = await navigator.mediaDevices.getUserMedia(constraints);
+} catch (error) {
+    if (error.name === 'NotAllowedError') {
+        this.showError('Camera access denied. Please allow camera permissions.');
+    }
+}
+        </div>
+        
+        <h3>2. Camera Not Found</h3>
+        <div class="status error">Failed to start camera: Requested device not found</div>
+        <div class="code">
+catch (error) {
+    if (error.name === 'NotFoundError') {
+        this.showError('No camera device found. Please connect a camera.');
+    }
+}
+        </div>
+        
+        <h3>3. Camera Already in Use</h3>
+        <div class="status error">Failed to start camera: Device already in use</div>
+        <div class="code">
+catch (error) {
+    if (error.name === 'NotReadableError') {
+        this.showError('Camera is being used by another application.');
+    }
+}
+        </div>
+    </div>
+
+    <div class="error-scenario">
+        <h2>🔧 Resolution & Device Errors</h2>
+        
+        <h3>1. Unsupported Resolution</h3>
+        <div class="status warning">Resolution changed to 1280x720 (HD)</div>
+        <div class="status info">Warning: Requested resolution 1920x1080 but got 1280x720</div>
+        <div class="code">
+// Verify the resolution was set
+int actualWidth = static_cast&lt;int&gt;(m_camera-&gt;get(cv::CAP_PROP_FRAME_WIDTH));
+int actualHeight = static_cast&lt;int&gt;(m_camera-&gt;get(cv::CAP_PROP_FRAME_HEIGHT));
+
+if (actualWidth != width || actualHeight != height) {
+    qDebug() << "Warning: Requested resolution" << width << "x" << height 
+             << "but got" << actualWidth << "x" << actualHeight;
+}
+        </div>
+        
+        <h3>2. Device Selection Failure</h3>
+        <div class="status error">Failed to load camera devices: Access denied</div>
+        <div class="code">
+async loadCameraDevices() {
+    try {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+    } catch (error) {
+        this.showError('Failed to load camera devices: ' + error.message);
+    }
+}
+        </div>
+    </div>
+
+    <div class="error-scenario">
+        <h2>📸 Screenshot & Recording Errors</h2>
+        
+        <h3>1. No Video Frame Available</h3>
+        <div class="status error">No video frame available for screenshot</div>
+        <div class="code">
+takeScreenshot() {
+    if (!this.video.videoWidth || !this.video.videoHeight) {
+        this.showError('No video frame available for screenshot');
+        return;
+    }
+}
+        </div>
+        
+        <h3>2. Recording Without Stream</h3>
+        <div class="status error">No camera stream available for recording</div>
+        <div class="code">
+startRecording() {
+    if (!this.stream) {
+        this.showError('No camera stream available for recording');
+        return;
+    }
+}
+        </div>
+    </div>
+
+    <div class="error-scenario">
+        <h2>🌐 Server & Network Errors</h2>
+        
+        <h3>1. Port Already in Use</h3>
+        <div class="status error">Error: Port 8080 is already in use</div>
+        <div class="code">
+except OSError as e:
+    if e.errno == 48:  # Address already in use
+        print(f"Error: Port {PORT} is already in use.")
+        print("Please either:")
+        print(f"1. Stop the other application using port {PORT}")
+        print("2. Edit this script to use a different port")
+        </div>
+        
+        <h3>2. HTTPS Requirement</h3>
+        <div class="status warning">Camera access requires HTTPS. Please serve this page over HTTPS or run it locally.</div>
+        <div class="code">
+if (location.protocol !== 'https:' && 
+    location.hostname !== 'localhost' && 
+    location.hostname !== '127.0.0.1') {
+    alert('Camera access requires HTTPS...');
+}
+        </div>
+    </div>
+
+    <div class="error-scenario">
+        <h2>🖥️ Qt C++ Application Errors</h2>
+        
+        <h3>1. Camera Initialization Failure</h3>
+        <div class="status error">Failed to initialize camera: Camera not found</div>
+        <div class="code">
+void CameraController::initialize(int cameraIndex) {
+    if (!m_camera->open(cameraIndex)) {
+        throw CameraException("Failed to open camera with index " + 
+                             std::to_string(cameraIndex));
+    }
+}
+        </div>
+        
+        <h3>2. Frame Capture Failure</h3>
+        <div class="status error">Error updating frame: Failed to capture frame from camera</div>
+        <div class="code">
+cv::Mat CameraController::captureFrame() {
+    cv::Mat frame;
+    if (!m_camera->read(frame)) {
+        throw CameraException("Failed to read frame from camera");
+    }
+    return frame;
+}
+        </div>
+    </div>
+
+    <div class="success-scenario">
+        <h2>🛠️ Error Recovery Mechanisms</h2>
+        
+        <h3>1. Automatic Button State Management</h3>
+        <div class="code">
+updateButtonStates(state) {
+    switch (state) {
+        case 'stopped':
+            this.playBtn.disabled = false;
+            this.pauseBtn.disabled = true;
+            // ... other buttons
+            break;
+        case 'error':
+            // Disable all controls except basic ones
+            this.resetToSafeState();
+            break;
+    }
+}
+        </div>
+        
+        <h3>2. Graceful Degradation</h3>
+        <div class="code">
+// Fallback to lower resolution if requested resolution fails
+async changeResolution() {
+    try {
+        await this.applyResolution(requestedResolution);
+    } catch (error) {
+        console.warn('Falling back to default resolution');
+        await this.applyResolution('640x480');
+    }
+}
+        </div>
+        
+        <h3>3. Resource Cleanup</h3>
+        <div class="code">
+stopCamera() {
+    if (this.stream) {
+        const tracks = this.stream.getTracks();
+        tracks.forEach(track => track.stop());
+        this.stream = null;
+    }
+    // Clean up other resources...
+}
+        </div>
+    </div>
+
+    <div class="info" style="background: #e3f2fd; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h2>🎯 Testing Error Scenarios</h2>
+        <p><strong>To test these error scenarios:</strong></p>
+        <ol>
+            <li><strong>Permission Denied</strong>: Block camera access in browser settings</li>
+            <li><strong>Device in Use</strong>: Open another camera app first</li>
+            <li><strong>Port Conflict</strong>: Run the server twice</li>
+            <li><strong>Invalid Resolution</strong>: Modify constraints in developer tools</li>
+            <li><strong>Network Issues</strong>: Access app over HTTP (not HTTPS/localhost)</li>
+        </ol>
+        
+        <p><strong>Recovery Actions:</strong></p>
+        <ul>
+            <li>Error modal provides clear instructions</li>
+            <li>Status bar shows current application state</li>
+            <li>Buttons are disabled/enabled appropriately</li>
+            <li>Resources are cleaned up automatically</li>
+            <li>Application remains stable and responsive</li>
+        </ul>
+    </div>
+
+    <script>
+        // Demonstrate error modal
+        function showDemoError() {
+            alert('Demo Error: This is how errors are displayed to users with clear instructions for resolution.');
+        }
+        
+        // Add click handler to demonstrate
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('status') && e.target.classList.contains('error')) {
+                showDemoError();
+            }
+        });
+        
+        console.log('Error Handling Demo loaded. Click on any red error status to see demo error modal.');
+    </script>
+</body>
+</html> 
