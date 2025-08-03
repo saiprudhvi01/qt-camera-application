@@ -1,0 +1,122 @@
+# Build directories
+build/
+build-*/
+cmake-build-*/
+debug/
+release/
+Release/
+Debug/
+RelWithDebInfo/
+MinSizeRel/
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+!CMakeLists.txt
+
+# Qt generated files
+*.pro.user
+*.pro.user.*
+*.qbs.user
+*.qbs.user.*
+*.moc
+moc_*.cpp
+moc_*.h
+qrc_*.cpp
+ui_*.h
+*.qm
+.qmake.cache
+.qmake.stash
+
+# C++ compiled files
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.lib
+*.exp
+*.pdb
+*.ilk
+
+# Visual Studio files
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.sln
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+.vscode/
+
+# Temporary files
+*.tmp
+*.temp
+*~
+*.swp
+*.swo
+*.bak
+*.orig
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# IDEs
+*.pro.user*
+*.creator
+*.creator.*
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Conan
+conandata.yml
+conanfile.txt
+conaninfo.txt
+
+# Package managers
+vcpkg_installed/
+packages/
+node_modules/
+
+# Log files
+*.log
+
+# Generated documentation
+docs/html/
+docs/latex/
+doxygen_output/
+
+# Testing
+test_results/
+*.gcov
+*.gcda
+*.gcno
+
+# Packaging
+*.deb
+*.rpm
+*.pkg
+*.dmg
+*.zip
+*.tar.gz
+*.7z
+
+# Local configuration
+local.properties
+config.local 
